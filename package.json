@@ -1,0 +1,45 @@
+{
+  "name": "moesif-aws-lambda",
+  "version": "1.0.5",
+  "description": "API Monitoring Middleware for AWS Lambda",
+  "main": "./lib/index.js",
+  "keywords": [
+    "moesif",
+    "aws",
+    "serverless",
+    "api",
+    "gateway",
+    "lambda",
+    "express",
+    "api",
+    "express",
+    "debug",
+    "logging"
+  ],
+  "author": {
+    "name": "Derric Gilling",
+    "email": "derric@moesif.com",
+    "url": "https://www.moesif.com"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Moesif/moesif-aws-lambda-nodejs"
+  },
+  "bugs": {
+    "url": "https://github.com/Moesif/moesif-aws-lambda-nodejs/issues"
+  },
+  "dependencies": {
+    "debug": "^2.2.0",
+    "lodash": "^4.16.4",
+    "moesifapi": "^1.2.5",
+    "request-ip": "^2.0.2",
+    "string": "^3.1.1"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha --reporter spec"
+  },
+  "engines": {
+    "node": ">=4"
+  }
+}
