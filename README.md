@@ -88,7 +88,7 @@ and returns a userId. This helps us attribute requests to unique users. Even tho
 automatically retrieve the userId without this, this is highly recommended to ensure accurate attribution.
 
 
-```
+```javascript
 options.identifyUser = function (event, context) {
   // your code here, must return a string
   return event.requestContext.identity.cognitoIdentityId
