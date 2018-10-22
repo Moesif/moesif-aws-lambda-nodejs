@@ -2,7 +2,7 @@
 
 [![NPM](https://nodei.co/npm/moesif-aws-lambda-nodejs.png?compact=true&stars=true)](https://nodei.co/npm/moesif-aws-lambda/)
 
-[![Built For express][ico-built-for]][link-built-for]
+[![Built For][ico-built-for]][link-built-for]
 [![Software License][ico-license]][link-license]
 [![Source Code][ico-source]][link-source]
 
