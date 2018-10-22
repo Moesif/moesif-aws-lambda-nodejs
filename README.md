@@ -1,18 +1,21 @@
 # Moesif AWS Lambda Middleware
 
-Middleware (NodeJS) to automatically log _incoming_ API requests/responses from AWS Lambda functions 
-and send to Moesif for error analysis. Designed for APIs that are hosted on AWS Lambda and using 
+[![NPM](https://nodei.co/npm/moesif-aws-lambda-nodejs.png?compact=true&stars=true)](https://nodei.co/npm/moesif-aws-lambda/)
+
+[![Built For express][ico-built-for]][link-built-for]
+[![Software License][ico-license]][link-license]
+[![Source Code][ico-source]][link-source]
+
+Middleware (NodeJS) to automatically log _incoming_ API requests/responses from AWS Lambda functions
+and send to Moesif for debugging and API analytics. Designed for APIs that are hosted on AWS Lambda and using
 Amazon API Gateway as a trigger.
 
 
-This middleware expects the 
+This middleware expects the
 [Lambda proxy integration type.](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html#api-gateway-set-up-lambda-proxy-integration-on-proxy-resource)
 If you're using AWS Lambda with API Gateway, you are most likely using the proxy integration type.
 
-
 [Source Code on GitHub](https://github.com/moesif/moesif-aws-lambda-nodejs)
-
-[Package on NPMJS](https://www.npmjs.com/package/moesif-aws-lambda)
 
 <div class="notice--info">
     <h4>
@@ -21,7 +24,7 @@ If you're using AWS Lambda with API Gateway, you are most likely using the proxy
     <br>
     <p>
         Alternatively, if you're running the Express Framework on AWS Lambda and prefer to use Express middleware, Moesif has
-        <a href="https://www.moesif.com/docs/server-integration/express/">Express Middleware</a> also available. The Express Middleware isn't 
+        <a href="https://www.moesif.com/docs/server-integration/express/">Express Middleware</a> also available. The Express Middleware isn't
         specific to AWS lambda but won't capture AWS specific stuff like Trace Id.
     </p>
 </div>
@@ -98,7 +101,7 @@ options.identifyUser = function (event, context) {
 #### __`getSessionToken`__
 
 Type: `(event, context) => String`
-getSessionToken a function that takes AWS lambda `event` and `context` objects as arguments and returns a 
+getSessionToken a function that takes AWS lambda `event` and `context` objects as arguments and returns a
 session token (i.e. such as an API key).
 
 
@@ -129,7 +132,7 @@ options.getTags = function (event, context) {
 #### __`getApiVersion`__
 
 Type: `(event, context) => String`
-getApiVersion is a function that takes AWS lambda `event` and `context` objects as arguments and 
+getApiVersion is a function that takes AWS lambda `event` and `context` objects as arguments and
 returns a string to tag requests with a specific version of your API.
 
 
@@ -143,7 +146,7 @@ options.getApiVersion = function (event, context) {
 #### __`skip`__
 
 Type: `(event, context) => Boolean`
-skip is a function that takes AWS lambda `event` and `context` objects as arguments and returns true 
+skip is a function that takes AWS lambda `event` and `context` objects as arguments and returns true
 if the event should be skipped (i.e. not logged)
 <br/>_The default is shown below and skips requests to the root path "/"._
 
@@ -162,8 +165,8 @@ options.skip = function (event, context) {
 #### __`maskContent`__
 
 Type: `MoesifEventModel => MoesifEventModel`
-maskContent is a function that takes the final Moesif event model (rather than the AWS lambda event/context objects) as an 
-argument before being sent to Moesif. With maskContent, you can make modifications to headers or body such as 
+maskContent is a function that takes the final Moesif event model (rather than the AWS lambda event/context objects) as an
+argument before being sent to Moesif. With maskContent, you can make modifications to headers or body such as
 removing certain header or body fields.
 
 
@@ -282,3 +285,11 @@ The userId field is required.
 ## Other integrations
 
 To view more more documentation on integration options, please visit __[the Integration Options Documentation](https://www.moesif.com/docs/getting-started/integration-options/).__
+
+[ico-built-for]: https://img.shields.io/badge/built%20for-aws%20lambda-blue.svg
+[ico-license]: https://img.shields.io/badge/License-Apache%202.0-green.svg
+[ico-source]: https://img.shields.io/github/last-commit/moesif/moesif-aws-lambda-nodejs.svg?style=social
+
+[link-built-for]: https://aws.amazon.com/lambda/
+[link-license]: https://raw.githubusercontent.com/Moesif/moesif-aws-lambda-nodejs/master/LICENSE
+[link-source]: https://github.com/moesif/moesif-aws-lambda-nodejs
