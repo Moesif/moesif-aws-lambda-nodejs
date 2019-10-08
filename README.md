@@ -98,8 +98,9 @@ logBody is default to true, set to false to remove logging request and response 
 
 Type: `(event, context) => String`
 identifyUser is a function that takes AWS lambda `event` and `context` objects as arguments
-and returns a userId. This helps us attribute requests to unique users. Even though Moesif can
-automatically retrieve the userId without this, this is highly recommended to ensure accurate attribution.
+and returns a userId. This enables Moesif to attribute API requests to individual unique users
+so you can understand who calling your API. This can be used simultaneously with `identifyCompany`
+to track both individual customers and the companies their a part of.
 
 
 ```javascript
