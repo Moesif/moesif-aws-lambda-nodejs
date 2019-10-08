@@ -1,6 +1,6 @@
 {
   "name": "moesif-aws-lambda",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "API Monitoring Middleware for AWS Lambda",
   "main": "./lib/index.js",
   "keywords": [
@@ -14,7 +14,9 @@
     "api",
     "express",
     "debug",
-    "logging"
+    "logging",
+    "trace",
+    "analytics"
   ],
   "author": {
     "name": "Derric Gilling",
@@ -31,15 +33,12 @@
   },
   "dependencies": {
     "debug": "^3.1.0",
-    "lodash": "^4.16.4",
+    "lodash": "^4.17.13",
     "moesifapi": "^2.0.2",
-    "request-ip": "^2.1.1",
+    "request-ip": "^2.1.3",
     "string": "^3.1.1"
   },
   "scripts": {
     "test": "node_modules/.bin/mocha --reporter spec"
-  },
-  "engines": {
-    "node": ">=4"
   }
 }
