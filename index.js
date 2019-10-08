@@ -1,6 +1,6 @@
 /**
- * Created by derric on 8/23/17.
  * This file is an example AWS Lambda function.
+ * The Moesif AWS Lambda SDK is in the ./lib directory
  */
 
 const moesif = require('./lib');
