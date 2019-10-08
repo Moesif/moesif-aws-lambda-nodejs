@@ -9,9 +9,7 @@
 Middleware (NodeJS) to automatically log API calls from AWS Lambda functions
 and sends to [Moesif](https://www.moesif.com) for API analytics and log analysis. 
 
-Designed for APIs that are hosted on AWS Lambda and using
-Amazon API Gateway as a trigger.
-
+Designed for APIs that are hosted on AWS Lambda using Amazon API Gateway as a trigger.
 
 This middleware expects the
 [Lambda proxy integration type.](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html#api-gateway-set-up-lambda-proxy-integration-on-proxy-resource)
@@ -55,6 +53,9 @@ const moesifOptions = {
 
     identifyUser: function (event, context) {
         return event.requestContext.identity.cognitoIdentityId
+    },
+    identifyCompany: function (event, context) {
+        return '5678'
     }
 };
 
@@ -89,19 +90,40 @@ into the [_Moesif Portal_](https://www.moesif.com/), click on the top right menu
 
 ## Configuration options
 
+#### __`logBody`__
+Type: `Boolean`
+logBody is default to true, set to false to remove logging request and response body to Moesif.
 
 #### __`identifyUser`__
 
 Type: `(event, context) => String`
 identifyUser is a function that takes AWS lambda `event` and `context` objects as arguments
-and returns a userId. This helps us attribute requests to unique users. Even though Moesif can
-automatically retrieve the userId without this, this is highly recommended to ensure accurate attribution.
+and returns a userId. This enables Moesif to attribute API requests to individual unique users
+so you can understand who calling your API. This can be used simultaneously with `identifyCompany`
+to track both individual customers and the companies their a part of.
 
 
 ```javascript
 options.identifyUser = function (event, context) {
   // your code here, must return a string
   return event.requestContext.identity.cognitoIdentityId
+}
+```
+
+#### __`identifyCompany`__
+
+Type: `(event, context) => String`
+identifyCompany is a function that takes AWS lambda `event` and `context` objects as arguments
+and returns a companyId. If your business is B2B, this enables Moesif to attribute 
+API requests to specific companies or organizations so you can understand which accounts are 
+calling your API. This can be used simultaneously with `identifyUser` to track both 
+individual customers and the companies their a part of. 
+
+
+```javascript
+options.identifyCompany = function (event, context) {
+  // your code here, must return a string
+  return '5678'
 }
 ```
 
@@ -119,23 +141,6 @@ options.getSessionToken = function (event, context) {
 }
 ```
 
-#### __`getTags`__
-
-Type: `(event, context) => String`
-getTags is a function that takes AWS lambda `event` and `context` objects as arguments and returns a comma-separated string containing a list of tags.
-See Moesif documentation for full list of tags.
-
-
-```javascript
-options.getTags = function (event, context) {
-  // your code here. must return a comma-separated string.
-  if (event.path.startsWith('/users') && event.httpMethod == 'GET'){
-    return 'user'
-  }
-  return 'random_tag_1, random_tag2'
-}
-```
-
 #### __`getApiVersion`__
 
 Type: `(event, context) => String`
@@ -147,6 +152,23 @@ returns a string to tag requests with a specific version of your API.
 options.getApiVersion = function (event, context) {
   // your code here. must return a string.
   return '1.0.5'
+}
+```
+
+#### __`getMetadata`__
+
+Type: `(event, context) => String`
+getMetadata is a function that AWS lambda `event` and `context` objects as arguments and returns an object that allows you
+to add custom metadata that will be associated with the req. The metadata must be a simple javascript object that can be converted to JSON. For example, you may want to save a VM instance_id, a trace_id, or a tenant_id with the request.
+
+
+```javascript
+options.getMetadata = function (event, context)  {
+  // your code here:
+  return {
+    foo: 'custom data',
+    bar: 'another custom data'
+  };
 }
 ```
 
@@ -189,7 +211,7 @@ options.maskContent = function(moesifEvent) {
 ```json
 {
   "request": {
-    "time": "2016-09-09T04:45:42.914",
+    "time": "2019-08-08T04:45:42.914",
     "uri": "https://api.acmeinc.com/items/83738/reviews/",
     "verb": "POST",
     "api_version": "1.1.0",
@@ -218,7 +240,7 @@ options.maskContent = function(moesifEvent) {
     }
   },
   "response": {
-    "time": "2016-09-09T04:45:42.914",
+    "time": "2019-08-08T04:45:42.924",
     "status": 500,
     "headers": {
       "Vary": "Accept-Encoding",
@@ -232,7 +254,8 @@ options.maskContent = function(moesifEvent) {
       "Message": "Missing field location"
     }
   },
-  "user_id": "mndug437f43",
+  "user_id": "my_user_id",
+  "company_id": "my_company_id",
   "session_token":"end_user_session_token",
   "tags": "tag1, tag2"
 }
@@ -242,36 +265,41 @@ options.maskContent = function(moesifEvent) {
 For more documentation regarding what fields and meaning,
 see below or the [Moesif Node API Documentation](https://www.moesif.com/docs/api?javascript).
 
-Fields | Required | Description
+Name | Required | Description
 --------- | -------- | -----------
-request.time | Required | Timestamp for the request in ISO 8601 format
-request.uri | Required | Full uri such as https://api.com/?query=string including host, query string, etc
-request.verb | Required | HTTP method used, i.e. `GET`, `POST`
-request.api_version | Optional | API Version you want to tag this request with
-request.ip_address | Optional | IP address of the end user
-request.headers | Required | Headers of the  request
-request.body | Optional | Body of the request in JSON format
+request | __true__ | The object that specifies the request message
+request.time| __true__ | Timestamp for the request in ISO 8601 format
+request.uri| __true__ | Full uri such as _https://api.com/?query=string_ including host, query string, etc
+request.verb| __true__ | HTTP method used, i.e. `GET`, `POST`
+request.api_version| false | API Version you want to tag this request with such as _1.0.0_
+request.ip_address| false | IP address of the requester, If not set, we use the IP address of your logging API calls.
+request.headers| __true__ | Headers of the  request as a `Map<string, string>`. Multiple headers with the same key name should be combined together such that the values are joined by a comma. [HTTP Header Protocol on w3.org](https://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2)
+request.body| false | Body of the request in JSON format or Base64 encoded binary data (see _transfer_encoding_)
+request.transfer_encoding| false | A string that specifies the transfer encoding of Body being sent to Moesif. If field nonexistent, body assumed to be JSON or text. Only possible value is _base64_ for sending binary data like protobuf
 ||
-response.time | Required | Timestamp for the response in ISO 8601 format
-response.status | Required | HTTP status code such as 200 or 500
-request.ip_address | Optional | IP address of the responding server
-response.headers | Required | Headers of the response
-response.body | Required | Body of the response in JSON format
+response | false | The object that specifies the response message, not set implies no response received such as a timeout.
+response.time| __true__ | Timestamp for the response in ISO 8601 format
+response.status| __true__ | HTTP status code as number such as _200_ or _500_
+response.ip_address| false | IP address of the responding server
+response.headers| __true__ | Headers of the response as a `Map<string, string>`. Multiple headers with the same key name should be combined together such that the values are joined by a comma. [HTTP Header Protocol on w3.org](https://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2)
+response.body| false | Body of the response in JSON format or Base64 encoded binary data (see _transfer_encoding_)
+response.transfer_encoding| false | A string that specifies the transfer encoding of Body being sent to Moesif. If field nonexistent, body assumed to be JSON or text. Only possible value is _base64_ for sending binary data like protobuf
+||
+session_token | _Recommend_ | The end user session token such as a JWT or API key, which may or may not be temporary. Moesif will auto-detect the session token automatically if not set.
+user_id | _Recommend_ | Identifies this API call to a permanent user_id
+metadata | false | A JSON Object consisting of any custom metadata to be stored with this event.
 
 
 ### updateUser method
 
-A method is attached to the moesif middleware object to update the users profile or metadata.
+A method is attached to the Moesif middleware object to update the user's profile or metadata.
 
 
 ```javascript
-'use strict'
-const moesif = require('moesif-aws-lambda');
-
 const moesifOptions = {
-    applicationId: 'Your Moesif application_id',
-
+    applicationId: 'Your Moesif Application Id',
 };
+
 var moesifMiddleware = moesif(options);
 var user = {
   userId: 'your user id',  // required.
@@ -282,6 +310,29 @@ var user = {
 }
 
 moesifMiddleware.updateUser(user, callback);
+
+```
+
+### updateCompany method
+
+A method is attached to the Moesif middleware object to update the company's profile or metadata.
+
+
+```javascript
+const moesifOptions = {
+    applicationId: 'Your Moesif Application Id',
+};
+
+var moesifMiddleware = moesif(options);
+var company = {
+  companyId: 'your company id',  // required.
+  companyDomain: 'acmeinc.com',
+  metadata: {
+    numEmployees: 9001
+  }
+}
+
+moesifMiddleware.updateCompany(user, callback);
 
 ```
 
