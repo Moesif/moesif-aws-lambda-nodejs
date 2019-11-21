@@ -339,6 +339,9 @@ moesifMiddleware.updateCompany(user, callback);
 The metadata field can be any custom data you want to set on the user.
 The userId field is required.
 
+## Examples
+
+- [A complete example is available on GitHub](https://github.com/Moesif/moesif-aws-lambda-node-js-example).
 
 ## Other integrations
 
