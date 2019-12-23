@@ -85,7 +85,7 @@ into the [_Moesif Portal_](https://www.moesif.com/), click on the top right menu
 ## Repo file structure
 
 - `lib/index.js` the middleware lib
-- `index.js` sample AWS Lambda function using the middleware
+- `app.js` sample AWS Lambda function using the middleware
 
 
 ## Configuration options
@@ -349,7 +349,7 @@ The userId field is required.
 
 ## Other integrations
 
-To view more more documentation on integration options, please visit __[the Integration Options Documentation](https://www.moesif.com/docs/getting-started/integration-options/).__
+To view more documentation on integration options, please visit __[the Integration Options Documentation](https://www.moesif.com/docs/getting-started/integration-options/).__
 
 [ico-built-for]: https://img.shields.io/badge/built%20for-aws%20lambda-blue.svg
 [ico-license]: https://img.shields.io/badge/License-Apache%202.0-green.svg
