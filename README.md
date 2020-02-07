@@ -22,7 +22,7 @@ as a trigger.
     <p>
         Alternatively, if you're running the Node.js Express Framework on AWS Lambda and prefer to not have any AWS specific dependencies, 
         Moesif has <a href="https://www.moesif.com/docs/server-integration/express/">Express Middleware</a> also available. 
-        However, `moesif-express` won't capture lambda specific context like Trace Id.
+        However, moesif-express won't capture lambda specific context like Trace Id.
     </p>
 </div>
 
