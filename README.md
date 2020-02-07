@@ -1,4 +1,4 @@
-# Moesif AWS Lambda Middleware
+# Moesif AWS Lambda Middleware for Node.js
 
 [![NPM](https://nodei.co/npm/moesif-aws-lambda-nodejs.png?compact=true&stars=true)](https://nodei.co/npm/moesif-aws-lambda/)
 
@@ -6,14 +6,11 @@
 [![Software License][ico-license]][link-license]
 [![Source Code][ico-source]][link-source]
 
-Middleware (NodeJS) to automatically log API calls from AWS Lambda functions
+Node.js Middleware for AWS Lambda that automatically logs API calls 
 and sends to [Moesif](https://www.moesif.com) for API analytics and log analysis. 
 
-Designed for APIs that are hosted on AWS Lambda using Amazon API Gateway as a trigger.
-
-This middleware expects the
-[Lambda proxy integration type.](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html#api-gateway-set-up-lambda-proxy-integration-on-proxy-resource)
-If you're using AWS Lambda with API Gateway, you are most likely using the proxy integration type.
+Designed for APIs that are hosted on AWS Lambda using Amazon API Gateway or Application Load Balancer
+as a trigger.
 
 [Source Code on GitHub](https://github.com/moesif/moesif-aws-lambda-nodejs)
 
@@ -23,9 +20,9 @@ If you're using AWS Lambda with API Gateway, you are most likely using the proxy
     </h4>
     <br>
     <p>
-        Alternatively, if you're running the Express Framework on AWS Lambda and prefer to use Express middleware, Moesif has
-        <a href="https://www.moesif.com/docs/server-integration/express/">Express Middleware</a> also available. The Express Middleware isn't
-        specific to AWS lambda but won't capture AWS specific stuff like Trace Id.
+        Alternatively, if you're running the Node.js Express Framework on AWS Lambda and prefer to not have any AWS specific dependencies, 
+        Moesif has <a href="https://www.moesif.com/docs/server-integration/express/">Express Middleware</a> also available. 
+        However, `moesif-express` won't capture lambda specific context like Trace Id.
     </p>
 </div>
 
@@ -294,54 +291,169 @@ user_id | _Recommend_ | Identifies this API call to a permanent user_id
 metadata | false | A JSON Object consisting of any custom metadata to be stored with this event.
 
 
-### updateUser method
 
-A method is attached to the Moesif middleware object to update the user's profile or metadata.
+## Update a Single User
 
+Create or update a user profile in Moesif.
+The metadata field can be any customer demographic or other info you want to store.
+Only the `userId` field is required.
+This method is a convenient helper that calls the Moesif API lib.
+For details, visit the [Node.js API Reference](https://www.moesif.com/docs/api?javascript--nodejs#update-a-user).
 
 ```javascript
-const moesifOptions = {
-    applicationId: 'Your Moesif Application Id',
-};
-
 var moesifMiddleware = moesif(options);
+
+// Only userId is required.
+// Campaign object is optional, but useful if you want to track ROI of acquisition channels
+// See https://www.moesif.com/docs/api#users for campaign schema
+// metadata can be any custom object
 var user = {
-  userId: 'your user id',  // required.
+  userId: '12345',
+  companyId: '67890', // If set, associate user with a company object
+  campaign: {
+    utmSource: 'google',
+    utmMedium: 'cpc', 
+    utmCampaign: 'adwords',
+    utmTerm: 'api+tooling',
+    utmContent: 'landing'
+  },
   metadata: {
-    email: 'user@email.com',
-    name: 'George'
+    email: 'john@acmeinc.com',
+    firstName: 'John',
+    lastName: 'Doe',
+    title: 'Software Engineer',
+    salesInfo: {
+        stage: 'Customer',
+        lifetimeValue: 24000,
+        accountOwner: 'mary@contoso.com'
+    }
   }
-}
+};
 
 moesifMiddleware.updateUser(user, callback);
-
 ```
 
-### updateCompany method
+## Update Users in Batch
+Similar to updateUser, but used to update a list of users in one batch. 
+Only the `userId` field is required.
+This method is a convenient helper that calls the Moesif API lib.
+For details, visit the [Node.js API Reference](https://www.moesif.com/docs/api?javascript--nodejs#update-users-in-batch).
 
-A method is attached to the Moesif middleware object to update the company's profile or metadata.
+```javascript
+var moesifMiddleware = moesif(options);
+
+// Only userId is required.
+// Campaign object is optional, but useful if you want to track ROI of acquisition channels
+// See https://www.moesif.com/docs/api#users for campaign schema
+// metadata can be any custom object
+var user = {
+  userId: '12345',
+  companyId: '67890', // If set, associate user with a company object
+  campaign: {
+    utmSource: 'google',
+    utmMedium: 'cpc', 
+    utmCampaign: 'adwords',
+    utmTerm: 'api+tooling',
+    utmContent: 'landing'
+  },
+  metadata: {
+    email: 'john@acmeinc.com',
+    firstName: 'John',
+    lastName: 'Doe',
+    title: 'Software Engineer',
+    salesInfo: {
+        stage: 'Customer',
+        lifetimeValue: 24000,
+        accountOwner: 'mary@contoso.com'
+    }
+  }
+};
+
+var users = [user]
+
+moesifMiddleware.updateUsersBatch(users, callback);
+```
+
+## Update a Single Company
+
+Create or update a company profile in Moesif.
+The metadata field can be any company demographic or other info you want to store.
+Only the `companyId` field is required.
+This method is a convenient helper that calls the Moesif API lib.
+For details, visit the [Node.js API Reference](https://www.moesif.com/docs/api?javascript--nodejs#update-a-company).
 
 
 ```javascript
-const moesifOptions = {
-    applicationId: 'Your Moesif Application Id',
+var moesifMiddleware = moesif(options);
+
+// Only companyId is required.
+// Campaign object is optional, but useful if you want to track ROI of acquisition channels
+// See https://www.moesif.com/docs/api#update-a-company for campaign schema
+// metadata can be any custom object
+var company = {
+  companyId: '67890',
+  companyDomain: 'acmeinc.com', // If domain is set, Moesif will enrich your profiles with publicly available info 
+  campaign: { 
+    utmSource: 'google',
+    utmMedium: 'cpc', 
+    utmCampaign: 'adwords',
+    utmTerm: 'api+tooling',
+    utmContent: 'landing'
+  },
+  metadata: {
+    orgName: 'Acme, Inc',
+    planName: 'Free Plan',
+    dealStage: 'Lead',
+    mrr: 24000,
+    demographics: {
+      alexaRanking: 500000,
+      employeeCount: 47
+    }
+  }
 };
 
-var moesifMiddleware = moesif(options);
-var company = {
-  companyId: 'your company id',  // required.
-  companyDomain: 'acmeinc.com',
-  metadata: {
-    numEmployees: 9001
-  }
-}
-
-moesifMiddleware.updateCompany(user, callback);
-
+moesifMiddleware.updateCompany(company, callback);
 ```
 
-The metadata field can be any custom data you want to set on the user.
-The userId field is required.
+## Update Companies in Batch
+Similar to updateCompany, but used to update a list of companies in one batch. 
+Only the `companyId` field is required.
+This method is a convenient helper that calls the Moesif API lib.
+For details, visit the [Node.js API Reference](https://www.moesif.com/docs/api?javascript--nodejs#update-companies-in-batch).
+
+```javascript
+var moesifMiddleware = moesif(options);
+
+// Only companyId is required.
+// Campaign object is optional, but useful if you want to track ROI of acquisition channels
+// See https://www.moesif.com/docs/api#update-a-company for campaign schema
+// metadata can be any custom object
+var company = {
+  companyId: '67890',
+  companyDomain: 'acmeinc.com', // If domain is set, Moesif will enrich your profiles with publicly available info 
+  campaign: { 
+    utmSource: 'google',
+    utmMedium: 'cpc', 
+    utmCampaign: 'adwords',
+    utmTerm: 'api+tooling',
+    utmContent: 'landing'
+  },
+  metadata: {
+    orgName: 'Acme, Inc',
+    planName: 'Free Plan',
+    dealStage: 'Lead',
+    mrr: 24000,
+    demographics: {
+      alexaRanking: 500000,
+      employeeCount: 47
+    }
+  }
+};
+
+var companies = [company]
+
+moesifMiddleware.updateCompaniesBatch(companies, callback);
+```
 
 ## Examples
 
