@@ -291,6 +291,32 @@ user_id | _Recommend_ | Identifies this API call to a permanent user_id
 metadata | false | A JSON Object consisting of any custom metadata to be stored with this event.
 
 
+## Capture Outgoing
+
+If you want to capture all outgoing API calls from your Node.js app to third parties like
+Stripe or to your own dependencies, call `startCaptureOutgoing()` to start capturing.
+
+```javascript
+var moesifMiddleware = moesifExpress(options);
+moesifMiddleware.startCaptureOutgoing();
+```
+
+The same set of above options is also applied to outgoing API calls, with a few key differences:
+
+For options functions that take `req` and `res` as input arguments, the request and response objects passed in
+are not Express or Node.js req or res objects when the request is outgoing, but Moesif does mock
+some of the fields for convenience.
+Only a subset of the Node.js req/res fields are available. Specifically:
+
+- *_mo_mocked*: Set to `true` if it is a mocked request or response object (i.e. outgoing API Call)
+- *headers*: object, a mapping of header names to header values. Case sensitive
+- *url*: string. Full request URL.
+- *method*: string. Method/verb such as GET or POST.
+- *statusCode*: number. Response HTTP status code
+- *getHeader*: function. (string) => string. Reads out a header on the request. Name is case insensitive
+- *get*: function. (string) => string. Reads out a header on the request. Name is case insensitive
+- *body*: JSON object. The request body as sent to Moesif
+
 
 ## Update a Single User
 

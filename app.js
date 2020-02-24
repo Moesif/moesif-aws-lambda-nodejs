@@ -4,6 +4,8 @@
  */
 
 const moesif = require('./lib');
+var http = require('http');
+var https = require('https');
 console.log('Loading function');
 
 const moesifOptions = {
@@ -15,7 +17,29 @@ const moesifOptions = {
     }
 };
 
+var moesifMiddleware = moesif(moesifOptions);
+moesifMiddleware.startCaptureOutgoing();
+
 exports.handler = function (event, context, callback) {
+    // Outgoing API call to third party
+    https.get(
+        {
+          host: 'jsonplaceholder.typicode.com',
+          path: '/posts/1'
+        },
+        function(res) {
+          var body = '';
+          res.on('data', function(d) {
+            body += d;
+          });
+
+          res.on('end', function() {
+            var parsed = JSON.parse(body);
+            console.log(parsed);
+          });
+        }
+      );
+
     callback(null, {
         statusCode: '200',
         body: JSON.stringify({key: 'hello world'}),
