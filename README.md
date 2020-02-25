@@ -263,6 +263,10 @@ options.maskContent = function(moesifEvent) {
 Type: `Boolean`
 Set to true to print debug logs if you're having integration issues. 
 
+#### __`promisedBased`__
+Type: `Boolean`
+Set to true while using aws lambda async functions. For more details, please refer to - https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html. 
+
 For more documentation regarding what fields and meaning,
 see below or the [Moesif Node API Documentation](https://www.moesif.com/docs/api?javascript).
 

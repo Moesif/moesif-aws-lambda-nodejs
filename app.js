@@ -49,4 +49,17 @@ exports.handler = function (event, context, callback) {
     });
 };
 
+// Async Functions 
+// Please set promisedBased configuration flag to true while using async functions. For more details, please refer to - https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html.
+
+// moesifOptions.promisedBased = true; 
+
+// exports.handler = async (event, context) => {
+//   const response = {
+//     statusCode: 200,
+//     body: JSON.stringify({ message: 'hello world' })
+//   }
+//   return response
+// }
+
 exports.handler = moesif(moesifOptions, exports.handler);
