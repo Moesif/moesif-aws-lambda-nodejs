@@ -1,6 +1,6 @@
 {
   "name": "moesif-aws-lambda",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "API Monitoring Middleware for AWS Lambda",
   "main": "lib/index.js",
   "keywords": [
