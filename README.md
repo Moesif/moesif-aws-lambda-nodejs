@@ -7,10 +7,10 @@
 [![Source Code][ico-source]][link-source]
 
 Node.js Middleware for AWS Lambda that automatically logs API calls 
-and sends to [Moesif](https://www.moesif.com) for API analytics and log analysis. 
+and sends to [Moesif](https://www.moesif.com) for API analytics and monitoring. 
 
 Designed for APIs that are hosted on AWS Lambda using Amazon API Gateway or Application Load Balancer
-as a trigger.
+as a trigger. Works with REST APIs, GraphQL APIs (such as with apollo-server-lambda) and more. 
 
 [Source Code on GitHub](https://github.com/moesif/moesif-aws-lambda-nodejs)
 
@@ -21,8 +21,8 @@ as a trigger.
     <br>
     <p>
         Alternatively, if you're running the Node.js Express Framework on AWS Lambda and prefer to not have any AWS specific dependencies, 
-        Moesif has <a href="https://www.moesif.com/docs/server-integration/express/">Express Middleware</a> also available. 
-        However, moesif-express won't capture lambda specific context like Trace Id.
+        Moesif has <a href="https://www.moesif.com/docs/server-integration/nodejs/">Express Middleware</a> also available. 
+        However, moesif-nodejs won't capture lambda specific context like Trace Id.
     </p>
 </div>
 
@@ -484,7 +484,8 @@ moesifMiddleware.updateCompaniesBatch(companies, callback);
 
 ## Examples
 
-- [A complete example is available on GitHub](https://github.com/Moesif/moesif-aws-lambda-node-js-example).
+- [REST API Example on GitHub](https://github.com/Moesif/moesif-aws-lambda-node-js-example).
+- [Apollo GraphQL Example on GitHUb](https://github.com/Moesif/moesif-aws-lambda-apollo-example).
 
 ## Other integrations
 
