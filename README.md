@@ -6,11 +6,11 @@
 [![Software License][ico-license]][link-license]
 [![Source Code][ico-source]][link-source]
 
-Node.js Middleware for AWS Lambda that automatically logs API calls 
-and sends to [Moesif](https://www.moesif.com) for API analytics and monitoring. 
+Node.js Middleware for AWS Lambda that automatically logs API calls
+and sends to [Moesif](https://www.moesif.com) for API analytics and monitoring.
 
 Designed for APIs that are hosted on AWS Lambda using Amazon API Gateway or Application Load Balancer
-as a trigger. Works with REST APIs, GraphQL APIs (such as with apollo-server-lambda) and more. 
+as a trigger. Works with REST APIs, GraphQL APIs (such as with apollo-server-lambda) and more.
 
 [Source Code on GitHub](https://github.com/moesif/moesif-aws-lambda-nodejs)
 
@@ -20,8 +20,8 @@ as a trigger. Works with REST APIs, GraphQL APIs (such as with apollo-server-lam
     </h4>
     <br>
     <p>
-        Alternatively, if you're running the Node.js Express Framework on AWS Lambda and prefer to not have any AWS specific dependencies, 
-        Moesif has <a href="https://www.moesif.com/docs/server-integration/nodejs/">Express Middleware</a> also available. 
+        Alternatively, if you're running the Node.js Express Framework on AWS Lambda and prefer to not have any AWS specific dependencies,
+        Moesif has <a href="https://www.moesif.com/docs/server-integration/nodejs/">Express Middleware</a> also available.
         However, moesif-nodejs won't capture lambda specific context like Trace Id.
     </p>
 </div>
@@ -73,11 +73,18 @@ exports.handler = moesif(moesifOptions, exports.handler);
 
 ### 2. Enter Moesif Application Id
 Your Moesif Application Id can be found in the [_Moesif Portal_](https://www.moesif.com/).
-After signing up for a Moesif account, your Moesif Application Id will be displayed during the onboarding steps. 
+After signing up for a Moesif account, your Moesif Application Id will be displayed during the onboarding steps.
 
-You can always find your Moesif Application Id at any time by logging 
+You can always find your Moesif Application Id at any time by logging
 into the [_Moesif Portal_](https://www.moesif.com/), click on the top right menu,
  and then clicking _Installation_.
+
+### 3. Trigger your API
+
+Grab the URL to your API Gateway or LB and make some calls using a tool like Postman or CURL.
+
+> In order for your event to log to Moesif, you must test using the Amazon API Gateway trigger. Do not invoke your lambda directly using AWS Console as the payload won't contain a valid HTTP payload.
+
 
 ## Repo file structure
 
@@ -111,10 +118,10 @@ options.identifyUser = function (event, context) {
 
 Type: `(event, context) => String`
 identifyCompany is a function that takes AWS lambda `event` and `context` objects as arguments
-and returns a companyId. If your business is B2B, this enables Moesif to attribute 
-API requests to specific companies or organizations so you can understand which accounts are 
-calling your API. This can be used simultaneously with `identifyUser` to track both 
-individual customers and the companies their a part of. 
+and returns a companyId. If your business is B2B, this enables Moesif to attribute
+API requests to specific companies or organizations so you can understand which accounts are
+calling your API. This can be used simultaneously with `identifyUser` to track both
+individual customers and the companies their a part of.
 
 
 ```javascript
@@ -261,7 +268,7 @@ options.maskContent = function(moesifEvent) {
 
 #### __`debug`__
 Type: `Boolean`
-Set to true to print debug logs if you're having integration issues. 
+Set to true to print debug logs if you're having integration issues.
 
 For more documentation regarding what fields and meaning,
 see below or the [Moesif Node API Documentation](https://www.moesif.com/docs/api?javascript).
@@ -339,7 +346,7 @@ var user = {
   companyId: '67890', // If set, associate user with a company object
   campaign: {
     utmSource: 'google',
-    utmMedium: 'cpc', 
+    utmMedium: 'cpc',
     utmCampaign: 'adwords',
     utmTerm: 'api+tooling',
     utmContent: 'landing'
@@ -361,7 +368,7 @@ moesifMiddleware.updateUser(user, callback);
 ```
 
 ## Update Users in Batch
-Similar to updateUser, but used to update a list of users in one batch. 
+Similar to updateUser, but used to update a list of users in one batch.
 Only the `userId` field is required.
 This method is a convenient helper that calls the Moesif API lib.
 For details, visit the [Node.js API Reference](https://www.moesif.com/docs/api?javascript--nodejs#update-users-in-batch).
@@ -378,7 +385,7 @@ var user = {
   companyId: '67890', // If set, associate user with a company object
   campaign: {
     utmSource: 'google',
-    utmMedium: 'cpc', 
+    utmMedium: 'cpc',
     utmCampaign: 'adwords',
     utmTerm: 'api+tooling',
     utmContent: 'landing'
@@ -419,10 +426,10 @@ var moesifMiddleware = moesif(options);
 // metadata can be any custom object
 var company = {
   companyId: '67890',
-  companyDomain: 'acmeinc.com', // If domain is set, Moesif will enrich your profiles with publicly available info 
-  campaign: { 
+  companyDomain: 'acmeinc.com', // If domain is set, Moesif will enrich your profiles with publicly available info
+  campaign: {
     utmSource: 'google',
-    utmMedium: 'cpc', 
+    utmMedium: 'cpc',
     utmCampaign: 'adwords',
     utmTerm: 'api+tooling',
     utmContent: 'landing'
@@ -443,7 +450,7 @@ moesifMiddleware.updateCompany(company, callback);
 ```
 
 ## Update Companies in Batch
-Similar to updateCompany, but used to update a list of companies in one batch. 
+Similar to updateCompany, but used to update a list of companies in one batch.
 Only the `companyId` field is required.
 This method is a convenient helper that calls the Moesif API lib.
 For details, visit the [Node.js API Reference](https://www.moesif.com/docs/api?javascript--nodejs#update-companies-in-batch).
@@ -457,10 +464,10 @@ var moesifMiddleware = moesif(options);
 // metadata can be any custom object
 var company = {
   companyId: '67890',
-  companyDomain: 'acmeinc.com', // If domain is set, Moesif will enrich your profiles with publicly available info 
-  campaign: { 
+  companyDomain: 'acmeinc.com', // If domain is set, Moesif will enrich your profiles with publicly available info
+  campaign: {
     utmSource: 'google',
-    utmMedium: 'cpc', 
+    utmMedium: 'cpc',
     utmCampaign: 'adwords',
     utmTerm: 'api+tooling',
     utmContent: 'landing'
