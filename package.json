@@ -1,6 +1,6 @@
 {
   "name": "moesif-aws-lambda",
-  "version": "1.5.2",
+  "version": "2.0.3",
   "description": "API Monitoring Middleware for AWS Lambda",
   "main": "lib/index.js",
   "keywords": [
@@ -32,8 +32,8 @@
     "url": "https://github.com/Moesif/moesif-aws-lambda-nodejs/issues"
   },
   "dependencies": {
-    "lodash": "^4.17.15",
-    "moesifapi": "^2.1.4",
+    "lodash": "^4.17.21",
+    "moesifapi": "^2.1.5",
     "request-ip": "^3.3.0",
     "crypto-js": "^4.2.0",
     "card-validator": "^6.2.0"
