@@ -71,13 +71,13 @@ exports.handler = moesif(moesifOptions, exports.handler);
 
 ```
 
-Depends on which version of node, you can also import directly.
+Depends on the version of node, you can also import directly:
 
 ```javascript
 import moesif from 'moesif-aws-lambda'
 ```
 
-If you are using ESM or later version of ESM. There are few other ways of importing:
+If you are using ESM or later version of ESM, please try the following method:
 
 ```javascript
 const moesifImportWrapper = await import('moesif-aws-lambda');
