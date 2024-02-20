@@ -71,6 +71,19 @@ exports.handler = moesif(moesifOptions, exports.handler);
 
 ```
 
+Depends on which version of node, you can also import directly.
+
+```javascript
+import moesif from 'moesif-aws-lambda'
+```
+
+If you are using ESM or later version of ESM. There are few other ways of importing:
+
+```javascript
+const moesifImportWrapper = await import('moesif-aws-lambda');
+const moesif = moesifImportWrapper.default;
+```
+
 ### 2. Enter Moesif Application Id
 Your Moesif Application Id can be found in the [_Moesif Portal_](https://www.moesif.com/).
 After signing up for a Moesif account, your Moesif Application Id will be displayed during the onboarding steps.
