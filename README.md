@@ -752,7 +752,9 @@ Only a subset of the Node.js request or response fields are available, specifica
 </table>
 
 ## Examples
-Here are some examples that demonstrate how to add and update customer information using this middleware.
+See the [example AWS Lambda function](https://github.com/Moesif/moesif-aws-lambda-nodejs/blob/master/app.js) that uses this middleware.
+
+The following examples demonstrate how to add and update customer information.
 
 ### Update a Single User
 
@@ -791,7 +793,7 @@ var user = {
 moesifMiddleware.updateUser(user, callback);
 ```
 
-The `metadata` field can contain any customer demographic or other info you want to store. Only the `userId` field is required.
+The `metadata` field can contain any customer demographic or other info you want to store. Moesif only requires the `userId` field.
 
 This method is a convenient helper that calls the Moesif API library. For more information, see the function documentation in [Moesif Node.js API reference](https://www.moesif.com/docs/api?javascript--nodejs#update-a-user).
 
@@ -804,7 +806,8 @@ var moesifMiddleware = moesif(options);
 // Only userId is required.
 // Campaign object is optional, but useful if you want to track ROI of acquisition channels
 // See https://www.moesif.com/docs/api#users for campaign schema
-// metadata can be any custom object
+//
+// Define the users. 
 var user = {
   userId: '12345',
   companyId: '67890', // If set, associate user with a company object
@@ -815,6 +818,7 @@ var user = {
     utmTerm: 'api+tooling',
     utmContent: 'landing'
   },
+  // Metadata can be any custom object
   metadata: {
     email: 'john@acmeinc.com',
     firstName: 'John',
@@ -828,12 +832,14 @@ var user = {
   }
 };
 
+// Put the users you inside an array.
 var users = [user]
 
+// Call the function with the list of users.
 moesifMiddleware.updateUsersBatch(users, callback);
 ```
 
-The `metadata` field can contain any customer demographic or other info you want to store. Only the `userId` field is required.
+The `metadata` field can contain any customer demographic or other info you want to store. MOesif only requires the `userId` field.
 
 This method is a convenient helper that calls the Moesif API library. For more information, see the function documentation in [Moesif Node.js API reference](https://www.moesif.com/docs/api?javascript--nodejs#update-users-in-batch).
 
@@ -872,7 +878,7 @@ var company = {
 moesifMiddleware.updateCompany(company, callback);
 ```
 
-The `metadata` field can contain any company demographic or other information you want to store. Only the `companyId` field is required.
+The `metadata` field can contain any company demographic or other information you want to store. Moesif only requires the `companyId` field.
 
 This method is a convenient helper that calls the Moesif API library. For more information, see the function documentation in [Moesif Node.js API reference](https://www.moesif.com/docs/api?javascript--nodejs#update-a-company).
 
@@ -885,7 +891,8 @@ var moesifMiddleware = moesif(options);
 // Only companyId is required.
 // Campaign object is optional, but useful if you want to track ROI of acquisition channels
 // See https://www.moesif.com/docs/api#update-a-company for campaign schema
-// metadata can be any custom object
+//
+// Define your companies.
 var company = {
   companyId: '67890',
   companyDomain: 'acmeinc.com', // If domain is set, Moesif will enrich your profiles with publicly available info
@@ -896,6 +903,7 @@ var company = {
     utmTerm: 'api+tooling',
     utmContent: 'landing'
   },
+  // Metadata can be any custom object
   metadata: {
     orgName: 'Acme, Inc',
     planName: 'Free Plan',
@@ -908,12 +916,14 @@ var company = {
   }
 };
 
+// Put the companies inside an array.
 var companies = [company]
 
+// Call the function with the list of companies.
 moesifMiddleware.updateCompaniesBatch(companies, callback);
 ```
 
-The `metadata` field can contain any company demographic or other information you want to store. Only the `companyId` field is required.
+The `metadata` field can contain any company demographic or other information you want to store. Moesif only requires the `companyId` field.
 
 This method is a convenient helper that calls the Moesif API library. For more information, see the function documentation in [Moesif Node.js API reference](https://www.moesif.com/docs/api?javascript--nodejs#update-companies-in-batch).
 
