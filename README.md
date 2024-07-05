@@ -930,8 +930,8 @@ This method is a convenient helper that calls the Moesif API library. For more i
 ## Additional Documentation
 For more information and examples, see the following:
 
-- [REST API Example](https://github.com/Moesif/moesif-aws-lambda-node-js-example): an AWS Lambda REST API built with Express.js.
-- [Apollo GraphQL Example](https://github.com/Moesif/moesif-aws-lambda-apollo-example): an AWS Lambda GraphQL API built with [Apollo](https://www.apollographql.com/).
+- __[REST API Example](https://github.com/Moesif/moesif-aws-lambda-node-js-example)__: an AWS Lambda REST API built with Express.js.
+- __[Apollo GraphQL Example](https://github.com/Moesif/moesif-aws-lambda-apollo-example)__: an AWS Lambda GraphQL API built with [Apollo](https://www.apollographql.com/).
 
 ## How to Get Help
 If you face any issues using this middleware, try the [troubheshooting guidelines](#troubleshoot). For further assistance, reach out to our [support team](mailto:support@moesif.com).
