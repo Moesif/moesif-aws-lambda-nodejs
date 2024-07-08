@@ -143,7 +143,7 @@ These are the most important files:
 ## Configuration Options
 The following sections describe the available configuration options for this middleware. You can set these options in the Moesif initialization options object. See [the sample AWS Lambda middleware function code](https://github.com/Moesif/moesif-aws-lambda-nodejs/blob/89c384621f8ae5fcee9166d798feb1e3115459ae/app.js#L15) for an example.
 
-#### __`logBody`__
+### __`logBody`__
 <table>
   <tr>
    <th scope="col">
@@ -164,7 +164,7 @@ The following sections describe the available configuration options for this mid
 </table>
 Whether to log request and response body to Moesif.
 
-#### __`identifyUser`__
+### __`identifyUser`__
 
 <table>
   <tr>
@@ -204,7 +204,7 @@ options.identifyUser = function (event, context) {
 }
 ```
 
-#### __`identifyCompany`__
+### __`identifyCompany`__
 <table>
   <tr>
    <th scope="col">
@@ -244,7 +244,7 @@ options.identifyCompany = function (event, context) {
 }
 ```
 
-#### __`getSessionToken`__
+### __`getSessionToken`__
 <table>
   <tr>
    <th scope="col">
@@ -281,7 +281,7 @@ options.getSessionToken = function (event, context) {
 }
 ```
 
-#### __`getApiVersion`__
+### __`getApiVersion`__
 <table>
   <tr>
    <th scope="col">
@@ -317,7 +317,7 @@ options.getApiVersion = function (event, context) {
 }
 ```
 
-#### __`getMetadata`__
+### __`getMetadata`__
 <table>
   <tr>
    <th scope="col">
@@ -361,7 +361,7 @@ options.getMetadata = function (event, context)  {
 }
 ```
 
-#### __`skip`__
+### __`skip`__
 <table>
   <tr>
    <th scope="col">
@@ -403,7 +403,7 @@ options.skip = function (event, context) {
 }
 ```
 
-#### __`maskContent`__
+### __`maskContent`__
 <table>
   <tr>
    <th scope="col">
@@ -525,7 +525,7 @@ Name | Required | Description
 `metadata` | No | A JSON Object consisting of any custom metadata to be stored with this event.
 
 
-#### __`debug`__
+### __`debug`__
 <table>
   <tr>
    <th scope="col">
@@ -843,7 +843,7 @@ The `metadata` field can contain any customer demographic or other info you want
 
 This method is a convenient helper that calls the Moesif API library. For more information, see the function documentation in [Moesif Node.js API reference](https://www.moesif.com/docs/api?javascript--nodejs#update-users-in-batch).
 
-## Update a Single Company
+### Update a Single Company
 To update a single [company](https://www.moesif.com/docs/getting-started/companies/), use the `updateCompany()` function.
 
 ```javascript
@@ -882,7 +882,7 @@ The `metadata` field can contain any company demographic or other information yo
 
 This method is a convenient helper that calls the Moesif API library. For more information, see the function documentation in [Moesif Node.js API reference](https://www.moesif.com/docs/api?javascript--nodejs#update-a-company).
 
-## Update Companies in Batch
+### Update Companies in Batch
 To update a list of [companies](https://www.moesif.com/docs/getting-started/companies/) in one batch, use the `updateCompaniesBatch()` function.
 
 ```javascript
