@@ -36,8 +36,8 @@ After you log into [Moesif Portal](https://www.moesif.com/wrap), you can get you
 
 1. Select the account icon to bring up the settings menu.
 2. Select **Installation** or **API Keys**.
-  <img class="lazyload blur-up" src="images/app_id.png" width="700" alt="Accessing the settings menu in Moesif Portal">
 3. Copy your Moesif Application ID from the **Collector Application ID** field.
+<img class="lazyload blur-up" src="images/app_id.png" width="700" alt="Accessing the settings menu in Moesif Portal">
 
 ## Install the middleware
 In your project directory, install the middleware as a project dependency:
@@ -143,7 +143,7 @@ These are the most important files:
 ## Configuration Options
 The following sections describe the available configuration options for this middleware. You can set these options in the Moesif initialization options object. See [the sample AWS Lambda middleware function code](https://github.com/Moesif/moesif-aws-lambda-nodejs/blob/89c384621f8ae5fcee9166d798feb1e3115459ae/app.js#L15) for an example.
 
-### __`logBody`__
+### `logBody`
 <table>
   <tr>
    <th scope="col">
@@ -164,7 +164,7 @@ The following sections describe the available configuration options for this mid
 </table>
 Whether to log request and response body to Moesif.
 
-### __`identifyUser`__
+### `identifyUser`
 
 <table>
   <tr>
@@ -204,7 +204,7 @@ options.identifyUser = function (event, context) {
 }
 ```
 
-### __`identifyCompany`__
+### `identifyCompany`
 <table>
   <tr>
    <th scope="col">
@@ -244,7 +244,7 @@ options.identifyCompany = function (event, context) {
 }
 ```
 
-### __`getSessionToken`__
+### `getSessionToken`
 <table>
   <tr>
    <th scope="col">
@@ -281,7 +281,7 @@ options.getSessionToken = function (event, context) {
 }
 ```
 
-### __`getApiVersion`__
+### `getApiVersion`
 <table>
   <tr>
    <th scope="col">
@@ -317,7 +317,7 @@ options.getApiVersion = function (event, context) {
 }
 ```
 
-### __`getMetadata`__
+### `getMetadata`
 <table>
   <tr>
    <th scope="col">
@@ -361,7 +361,7 @@ options.getMetadata = function (event, context)  {
 }
 ```
 
-### __`skip`__
+### `skip`
 <table>
   <tr>
    <th scope="col">
@@ -403,7 +403,7 @@ options.skip = function (event, context) {
 }
 ```
 
-### __`maskContent`__
+### `maskContent`
 <table>
   <tr>
    <th scope="col">
@@ -525,7 +525,7 @@ Name | Required | Description
 `metadata` | No | A JSON Object consisting of any custom metadata to be stored with this event.
 
 
-### __`debug`__
+### `debug`
 <table>
   <tr>
    <th scope="col">
@@ -667,7 +667,7 @@ Only a subset of the Node.js request or response fields are available, specifica
   </tr>
 </table>
 
-### getHeader
+### `getHeader`
 <table>
   <tr>
    <th scope="col">
