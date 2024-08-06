@@ -20,7 +20,7 @@ const moesifOptions = {
 var moesifMiddleware = moesif(moesifOptions);
 moesifMiddleware.startCaptureOutgoing();
 
-exports.handler = function (event, context, callback) {
+var handler = function (event, context, callback) {
     // Outgoing API call to third party
     https.get(
         {
@@ -49,7 +49,7 @@ exports.handler = function (event, context, callback) {
     });
 };
 
-// Async Functions 
+// Async Functions
 // For more details, please refer to - https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html.
 
 // exports.handler = async (event, context) => {
@@ -60,4 +60,4 @@ exports.handler = function (event, context, callback) {
 //   return response
 // }
 
-exports.handler = moesif(moesifOptions, exports.handler);
+exports.handler = moesif(moesifOptions, handler);
