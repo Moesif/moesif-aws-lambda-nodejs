@@ -932,7 +932,7 @@ For more information and examples, see the following:
 
 - __[REST API Example](https://github.com/Moesif/moesif-aws-lambda-node-js-example)__: an AWS Lambda REST API built with Express.js.
 - __[Apollo GraphQL Example](https://github.com/Moesif/moesif-aws-lambda-apollo-example)__: an AWS Lambda GraphQL API built with [Apollo](https://www.apollographql.com/).
-- __[Moesif, Middy, and Serverless Example](https://github.com/Moesif/moesif-middy-serverless-example)__: an example showcasing how to use this middleware with [Middy](https://www.moesif.com/docs/server-integration/aws-lambda-nodejs/) and [Serverless Framework](https://serverless.com/).
+- __[Moesif, Middy, and Serverless Example](https://github.com/Moesif/moesif-middy-serverless-example)__: an example showcasing how to use this middleware with [Middy](https://middy.js.org/) and [Serverless Framework](https://serverless.com/).
 
 
 
