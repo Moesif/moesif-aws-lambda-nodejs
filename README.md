@@ -143,37 +143,6 @@ These are the most important files:
 ## Configuration Options
 The following sections describe the available configuration options for this middleware. You can set these options in the Moesif initialization options object. See [the sample AWS Lambda middleware function code](https://github.com/Moesif/moesif-aws-lambda-nodejs/blob/89c384621f8ae5fcee9166d798feb1e3115459ae/app.js#L15) for an example.
 
-### Cold Start Governance
-
-You can enforce that initial requests during a Lambda cold start wait until Moesif Config and Governance Rules are loaded.
-
-- `waitForGovernanceOnColdStart` (Boolean): When `true`, the middleware blocks the first invocations until governance rules are fetched and the app config is available. Default: `false`.
-- `governanceLoadTimeoutMs` (Number): Maximum time in milliseconds to wait for config before proceeding even if it hasn’t loaded, to avoid indefinite blocking. Default: `5000`.
-
-Example:
-
-```javascript
-const moesif = require('moesif-aws-lambda');
-
-const options = {
-  applicationId: process.env.MOESIF_APPLICATION_ID,
-  waitForGovernanceOnColdStart: true,
-  governanceLoadTimeoutMs: 8000,
-};
-
-exports.handler = moesif(options, async (event, context) => {
-  return {
-    statusCode: 200,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ok: true })
-  };
-});
-```
-
-Notes:
-- Requests during cold start may take longer but ensure governance is applied when rules exist.
-- If the timeout elapses without config, the request proceeds to avoid indefinite delays.
-
 ### `logBody`
 <table>
   <tr>
@@ -977,6 +946,37 @@ On cold starts (when a new execution environment is initialized), there can be a
 In typical production APIs, regular traffic keeps functions warm, so the likelihood of requests slipping through this initial window is small.
 
 In isolated tests or very low-traffic scenarios, the execution environment may be recycled and the cache cleared, recreating the short window until configuration is reloaded. When testing, please send few normal request to keep the system warm first.
+
+### Cold Start Governance
+
+You can enforce that initial requests during a Lambda cold start wait until Moesif Config and Governance Rules are loaded.
+
+- `waitForGovernanceOnColdStart` (Boolean): When `true`, the middleware blocks the first invocations until governance rules are fetched and the app config is available. Default: `false`.
+- `governanceLoadTimeoutMs` (Number): Maximum time in milliseconds to wait for config before proceeding even if it hasn’t loaded, to avoid indefinite blocking. Default: `5000`.
+
+Example:
+
+```javascript
+const moesif = require('moesif-aws-lambda');
+
+const options = {
+  applicationId: process.env.MOESIF_APPLICATION_ID,
+  waitForGovernanceOnColdStart: true,
+  governanceLoadTimeoutMs: 8000,
+};
+
+exports.handler = moesif(options, async (event, context) => {
+  return {
+    statusCode: 200,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ok: true })
+  };
+});
+```
+
+Notes:
+- Requests during cold start may take longer but ensure governance is applied when rules exist.
+- If the timeout elapses without config, the request proceeds to avoid indefinite delays.
 
 ## How to Get Help
 If you face any issues using this middleware, try the [troubheshooting guidelines](#troubleshoot). For further assistance, reach out to our [support team](mailto:support@moesif.com).
