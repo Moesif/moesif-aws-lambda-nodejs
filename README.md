@@ -945,7 +945,7 @@ On cold starts (when a new execution environment is initialized), there can be a
 
 In typical production APIs, regular traffic keeps functions warm, so the likelihood of requests slipping through this initial window is small.
 
-In isolated tests or very low-traffic scenarios, the execution environment may be recycled and the cache cleared, recreating the short window until configuration is reloaded.
+In isolated tests or very low-traffic scenarios, the execution environment may be recycled and the cache cleared, recreating the short window until configuration is reloaded. When testing, please send few normal request to keep the system warm first. 
 
 ## How to Get Help
 If you face any issues using this middleware, try the [troubheshooting guidelines](#troubleshoot). For further assistance, reach out to our [support team](mailto:support@moesif.com).
