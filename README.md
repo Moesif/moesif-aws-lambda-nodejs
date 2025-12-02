@@ -7,22 +7,22 @@ by [Moesif](https://moesif.com), the [API analytics](https://www.moesif.com/feat
 [![Software License][ico-license]][link-license]
 [![Source Code][ico-source]][link-source]
 
-With Moesif Node.js middleware for AWS Lambda, you can automatically log API calls 
+With Moesif Node.js middleware for AWS Lambda, you can automatically log API calls
 and send them to [Moesif](https://www.moesif.com) for API analytics and monitoring.
-This middleware allows you to integrate Moesif's API analytics and 
+This middleware allows you to integrate Moesif's API analytics and
 API monetization features into your Node.js applications with minimal configuration.
 
 > If you're new to Moesif, see [our Getting Started](https://www.moesif.com/docs/) resources to quickly get up and running.
 
 ## Who This Middleware is For
 
-We've designed Moesif Node.js middleware for AWS Lambda for APIs that you host 
+We've designed Moesif Node.js middleware for AWS Lambda for APIs that you host
 on AWS Lambda using Amazon API Gateway or Application Load Balancer
-as a trigger. The middleware works with REST APIs, [GraphQL APIs](https://www.moesif.com/features/graphql-analytics) 
+as a trigger. The middleware works with REST APIs, [GraphQL APIs](https://www.moesif.com/features/graphql-analytics)
 ([such as with `apollo-server-lambda`](https://github.com/Moesif/moesif-aws-lambda-apollo-example)), and more.
 
-If you're running a Node.js framework like Express.js on AWS Lambda and prefer to not have any 
-AWS-specific dependencies, Moesif also has a <a href="https://www.moesif.com/docs/server-integration/nodejs/">Node.js middleware</a> available. The Node.js middleware supports all Node.js frameworks, including Express.js. 
+If you're running a Node.js framework like Express.js on AWS Lambda and prefer to not have any
+AWS-specific dependencies, Moesif also has a <a href="https://www.moesif.com/docs/server-integration/nodejs/">Node.js middleware</a> available. The Node.js middleware supports all Node.js frameworks, including Express.js.
 However, the Node.js middleware doesn't capture Lambda-specific context like trade ID.
 
 ## Prerequisites
@@ -47,7 +47,7 @@ npm install --save moesif-aws-lambda
 ```
 
 ## Configure the Middleware
-See the available [configuration options](#configuration-options) to learn how to configure the middleware for your use case. 
+See the available [configuration options](#configuration-options) to learn how to configure the middleware for your use case.
 
 ## How to use
 
@@ -99,7 +99,7 @@ const moesif = moesifImportWrapper.default;
 ```
 
 ### 2. Enter Your Moesif Application ID
-The middleware expects your Moesif Application ID in [the `applicationId` key of the Moesif initialization options object](https://github.com/Moesif/moesif-aws-lambda-nodejs/blob/89c384621f8ae5fcee9166d798feb1e3115459ae/app.js#L13). 
+The middleware expects your Moesif Application ID in [the `applicationId` key of the Moesif initialization options object](https://github.com/Moesif/moesif-aws-lambda-nodejs/blob/89c384621f8ae5fcee9166d798feb1e3115459ae/app.js#L13).
 
 For instructions on how to obtain your Application ID, see [Get your Moesif Application ID](#get-your-moesif-application-id).
 
@@ -343,10 +343,10 @@ options.getApiVersion = function (event, context) {
   </tr>
 </table>
 
-A function that takes AWS lambda `event` and `context` objects as arguments and returns an object. 
+A function that takes AWS lambda `event` and `context` objects as arguments and returns an object.
 
 This function allows you
-to add custom metadata that Moesif can associate with the request. The metadata must be a simple JavaScript object that can be converted to JSON. 
+to add custom metadata that Moesif can associate with the request. The metadata must be a simple JavaScript object that can be converted to JSON.
 
 For example, you may want to save a virtual machine instance ID, a trace ID, or a tenant ID with the request.
 
@@ -430,7 +430,7 @@ options.skip = function (event, context) {
 </table>
 
 A function that takes the final Moesif event model, rather than the AWS lambda event or context objects, as an
-argument before the middleware sends the event model object to Moesif. 
+argument before the middleware sends the event model object to Moesif.
 
 With `maskContent`, you can make modifications to headers or body such as
 removing certain header or body fields.
@@ -807,7 +807,7 @@ var moesifMiddleware = moesif(options);
 // Campaign object is optional, but useful if you want to track ROI of acquisition channels
 // See https://www.moesif.com/docs/api#users for campaign schema
 //
-// Define the users. 
+// Define the users.
 var user = {
   userId: '12345',
   companyId: '67890', // If set, associate user with a company object
@@ -935,6 +935,17 @@ For more information and examples, see the following:
 - __[Moesif, Middy, and Serverless Example](https://github.com/Moesif/moesif-middy-serverless-example)__: an example showcasing how to use this middleware with [Middy](https://middy.js.org/) and [Serverless Framework](https://serverless.com/).
 
 
+## Note about AWS Cold Start and Governance Rules
+
+The `moesif-aws-lambda-nodejs` SDK fetches governance configuration from Moesif (for example, rules on which users or companies to block) and caches it in the Lambda execution environment’s memory.
+
+For warm invocations (where the Lambda execution environment is already initialized), this in-memory cache works as expected.
+
+On cold starts (when a new execution environment is initialized), there can be a short window before the configuration is fetched and the cache is populated. During this startup window, the SDK loads configuration asynchronously in the background, so governance decisions (like blocking) may not apply immediately.
+
+In typical production APIs, regular traffic keeps functions warm, so the likelihood of requests slipping through this initial window is small.
+
+In isolated tests or very low-traffic scenarios, the execution environment may be recycled and the cache cleared, recreating the short window until configuration is reloaded.
 
 ## How to Get Help
 If you face any issues using this middleware, try the [troubheshooting guidelines](#troubleshoot). For further assistance, reach out to our [support team](mailto:support@moesif.com).
